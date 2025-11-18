@@ -1,9 +1,9 @@
-
 version: 0.2
 phases:
   install:
+    runtime-versions:
+      nodejs: 20
     commands:
-      - cd app   # package.jsonがあるディレクトリに移動
       - npm install
   build:
     commands:
@@ -11,4 +11,4 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: app/build
+  base-directory: build
