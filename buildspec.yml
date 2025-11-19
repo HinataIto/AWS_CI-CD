@@ -1,17 +1,16 @@
+
 version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      nodejs: 20
     commands:
-      - npm install
+      - echo "Preparing for S3 deployment"
 
   build:
     commands:
-      - npm run build
+      - echo "Uploading files to S3..."
+      - aws s3 sync ./dist s3://your-artifact-bucket --delete
 
 artifacts:
   files:
     - '**/*'
-  base-directory: build
