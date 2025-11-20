@@ -4,12 +4,10 @@ phases:
   install:
     commands:
       - echo "Preparing for S3 deployment"
-
   build:
     commands:
       - echo "Uploading files to S3..."
-      - aws s3 sync ./ s3://your-artifact-bucket --delete
-
+      - aws s3 sync ./ s3://movie-dev-lp-s3-ito-01 --delete
 artifacts:
   files:
     - '**/*'
