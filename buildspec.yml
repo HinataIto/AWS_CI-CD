@@ -6,11 +6,13 @@ phases:
   build:
     commands:
       - echo "Uploading files to S3..."
-      - aws s3 sync ./ s3://movie-dev-lp-s3-ito-01 --delete || { echo "S3 sync failed"; exit 1; }
+      # 指定パスにアップロード（例：contents/app/）
+      - aws s3 sync ./ s3://movie-dev-lp-s3-ito-01/contents/ --delete || { echo "S3 sync failed"; exit 1; }
 post_build:
   commands:
       - echo "Invalidating CloudFront cache..."
-      - aws cloudfront create-invalidation --distribution-id E3LKNA63UJUSGM --paths "/*"
+      # キャッシュ無効化もパスに合わせる
+      - aws cloudfront create-invalidation --distribution-id E3LKNA63UJUSGM --paths "/contents/app/*"
 artifacts:
   files:
     - '**/*'
