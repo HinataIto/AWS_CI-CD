@@ -1,5 +1,4 @@
 version: 0.2
-
 phases:
   install:
     commands:
@@ -7,7 +6,11 @@ phases:
   build:
     commands:
       - echo "Uploading files to S3..."
-      - aws s3 sync ./ s3://movie-dev-lp-s3-ito-01 --delete
+      - aws s3 sync ./ s3://movie-dev-lp-s3-ito-01 --delete || { echo "S3 sync failed"; exit 1; }
+post_build:
+  commands:
+      - echo "Invalidating CloudFront cache..."
+      - aws cloudfront create-invalidation --distribution-id E3LKNA63UJUSGM --paths "/*"
 artifacts:
   files:
     - '**/*'
